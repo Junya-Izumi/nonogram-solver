@@ -1,0 +1,90 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+:root{
+    --viewer-height:5;
+    --viewer-width:5;
+}
+#id,body{
+    height: 100%;
+    width: 100%;
+}
+#viewer{
+    background-color: #be9595;
+    width: calc(20px * var(--viewer-width) *2);
+    height: calc(20px * var(--viewer-width) *2);
+    /* aspect-ratio: 1 / 1; */
+    display: grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+/* boardの表示 */
+#viewer .board{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    /* border: solid 1px #000; */
+}
+
+
+/* .rowHint */
+.rowHint{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    text-align: right;
+}
+
+.rowHint div{
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    justify-content: right;
+    border-bottom: solid 1px #000;
+    background-color: #fff;
+    /* box-sizing: border-box; */
+}
+
+.rowHint div:first-child{
+    border-top: solid 1px #000;
+}
+
+.rowHint div[data-solved="true"]{
+    background-color: #585757;
+    color: #313131;
+}
+
+/* colHint */
+.colHint{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+.colHint div{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    /* min-width:  calc(100% / var(--viewer-width));; */
+    justify-content: center;
+    align-items: flex-end;
+    background-color: #fff;
+    border-right:solid 1px  #000;
+    white-space:pre-line;
+}
+
+.colHint div[data-solved="true"]{
+    background-color: #585757;
+    color: #313131;
+}
+
+.colHint div:first-child{
+    border-left: 1px solid #000;
+}
