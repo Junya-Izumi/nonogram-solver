@@ -1,7 +1,7 @@
 //canvas処理をまとめるモジュール
 import { CellValues, type NewFill } from "../types";
 import { qs } from "../utiles";
-import { Viewer } from "./idnex";
+import { Viewer } from "./";
 
 export function setCanvasSize(viewer:Viewer) {
     const rowHint = qs(".rowHint",viewer.root);
