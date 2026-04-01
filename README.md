@@ -50,5 +50,7 @@ solveBtn.addEventListener("click",()=>solver.solve())
 ```
 ## 目標
 5 x 5 の問題に対応できるようにする
+
+その後、10 x 10の問題に対応できるようにする
 ## LICENSE
 MIT License
