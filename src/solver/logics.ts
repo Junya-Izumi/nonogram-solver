@@ -4,7 +4,7 @@ import { type Cell, CellValues , debug} from "../types";
 import { forUnsolvedRows, forUnsolvedCols, checkLine, getColArray, forUnsolvedLine } from "./utils";
 
 export function apply0(solver:Solver) {
-    forUnsolvedLine("apply0",solver,(direction:"row"|"col",dimension:"width"|"height",i:number)=>{
+    forUnsolvedLine("apply0",solver,(direction:"row"|"col",i:number)=>{
         if (solver.nonogram.hint[direction][i][0] == 0) {
             solver.fillLine(direction, i, CellValues.Cross)
             solver.solved[direction][i] = true
@@ -14,7 +14,7 @@ export function apply0(solver:Solver) {
 }
 
 export function applyjust(solver:Solver) {
-    forUnsolvedLine("applyjust",solver,(direction:"row"|"col",dimension:"width"|"height",i:number)=>{
+    forUnsolvedLine("applyjust",solver,(direction:"row"|"col",i:number,dimension:"width"|"height")=>{
         if (solver.nonogram.hint[direction][i][0] == solver.nonogram.boardInfo[dimension]) {
             solver.fillLine(direction, i, CellValues.Filled)
             solver.solved[direction][i] = true;
@@ -24,7 +24,7 @@ export function applyjust(solver:Solver) {
 }
 
 export function applyBtween1(solver:Solver) {
-    forUnsolvedLine("applyBtween1",solver,(direction:"row"|"col",dimension:"width"|"height",i:number)=>{
+    forUnsolvedLine("applyBtween1",solver,(direction:"row"|"col",i:number,dimension:"width"|"height")=>{
         if (!(solver.nonogram.hint[direction][i].length >= 2)) return;
         let sum = 0
         solver.nonogram.hint[direction][i].forEach((value: number) => { sum += value + 1 })
@@ -48,7 +48,7 @@ export function applyBtween1(solver:Solver) {
 
 //その行列のヒントが一つで幅の半分より大きい場合は計算して行列の真ん中を埋める
 //row
-const applyCenterRow = (solver: Solver) => {
+export const applyCenterRow = (solver: Solver) => {
     forUnsolvedRows("center row", solver, (i: number) => {
         if (solver.nonogram.hint.row[i].length == 1 &&
             solver.nonogram.hint.row[i][0] > Math.ceil(solver.nonogram.boardInfo.width / 2)
@@ -65,7 +65,7 @@ const applyCenterRow = (solver: Solver) => {
     })
 }
 //col
-const applyCenterCol = (solver: Solver) => {
+export const applyCenterCol = (solver: Solver) => {
     forUnsolvedCols("center col", solver, (i: number) => {
         if (solver.nonogram.hint.col[i].length == 1 &&
             solver.nonogram.hint.col[i][0] > Math.ceil(solver.nonogram.boardInfo.height / 2)
@@ -88,7 +88,7 @@ const applyCenterCol = (solver: Solver) => {
 // }
 
 export function applyCenter(solver: Solver){
-    forUnsolvedLine("center",solver,(direction:"row"|"col",dimension:"width"|"height",i:number)=>{
+    forUnsolvedLine("center",solver,(direction:"row"|"col",i:number,dimension:"width"|"height")=>{
         if (solver.nonogram.hint[direction][i].length == 1 &&
             solver.nonogram.hint[direction][i][0] > Math.ceil(solver.nonogram.boardInfo[dimension] / 2)
         ) {
@@ -109,7 +109,7 @@ export function applyCenter(solver: Solver){
 }
 
 export function applyAllFill(solver:Solver) {
-    forUnsolvedLine("all fill",solver,(direction:"row"|"col",dimension:"width"|"height",i:number)=>{
+    forUnsolvedLine("all fill",solver,(direction:"row"|"col",i:number)=>{
         const existingLine = (():Cell[]=>{
             if (direction == "row") {
                 return solver.board[i]
