@@ -48,7 +48,7 @@ export function applyBtween1(solver:Solver) {
 
 //その行列のヒントが一つで幅の半分より大きい場合は計算して行列の真ん中を埋める
 //row
-const applyCenterRow = (solver: Solver) => {
+export const applyCenterRow = (solver: Solver) => {
     forUnsolvedRows("center row", solver, (i: number) => {
         if (solver.nonogram.hint.row[i].length == 1 &&
             solver.nonogram.hint.row[i][0] > Math.ceil(solver.nonogram.boardInfo.width / 2)
@@ -65,7 +65,7 @@ const applyCenterRow = (solver: Solver) => {
     })
 }
 //col
-const applyCenterCol = (solver: Solver) => {
+export const applyCenterCol = (solver: Solver) => {
     forUnsolvedCols("center col", solver, (i: number) => {
         if (solver.nonogram.hint.col[i].length == 1 &&
             solver.nonogram.hint.col[i][0] > Math.ceil(solver.nonogram.boardInfo.height / 2)
