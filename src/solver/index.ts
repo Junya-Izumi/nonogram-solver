@@ -52,7 +52,7 @@ export class Solver {
     }
     //一つの行・列をCellまたはCell[]で埋める関数
     fillLine(direction: "row" | "col", index: number, fillValue: Cell[] | Cell) {
-        console.group("fillLine", index)
+        if(debug) console.group("fillLine", index)
         for (let i = 0; i < this.nonogram.boardInfo.width; i++) {
             let postiion: Position = { y: index, x: i }
             if (direction == "col") {
@@ -66,7 +66,7 @@ export class Solver {
                 };
             })())
         }
-        console.groupEnd()
+        if(debug) console.groupEnd()
     }
     //解読開始
     async solve() {

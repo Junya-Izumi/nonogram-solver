@@ -25,11 +25,11 @@ export function solvedCheck(solver: Solver) {
         })
     }
     //row
-    console.group("row")
+    if(debug) console.group("row")
     for (let i = 0; i < solver.nonogram.boardInfo.height; i++) {
-        console.group(i)
+        if(debug) console.group(i)
         if (solver.solved.row[i]) {
-            console.groupEnd()
+            if(debug) console.groupEnd()
             continue
         }
         if (checkLine(solver.nonogram.hint.row[i], solver.board[i])) {
@@ -37,15 +37,15 @@ export function solvedCheck(solver: Solver) {
             solver.fillLine("row", i, newArray)
             solver.solved.row[i] = true
         }
-        console.groupEnd()
+        if(debug) console.groupEnd()
     }
-    console.groupEnd()
+    if(debug) console.groupEnd()
     //col
-    console.group("col")
+    if(debug) console.group("col")
     for (let i = 0; i < solver.nonogram.boardInfo.width; i++) {
-        console.group(i)
+        if(debug) console.group(i)
         if (solver.solved.col[i]) {
-            console.groupEnd()
+            if(debug) console.groupEnd()
             continue
         }
         const array: Cell[] = getColArray(solver, i)
@@ -55,9 +55,9 @@ export function solvedCheck(solver: Solver) {
             solver.fillLine("col", i, newArray)
             solver.solved.col[i] = true
         }
-        console.groupEnd()
+        if(debug) console.groupEnd()
     }
-    console.groupEnd()
+    if(debug) console.groupEnd()
 }
 
 //ヒントと配列があっているか確かめる関数
@@ -84,9 +84,9 @@ export function checkLine(hint: number[], array: Cell[]){
 
 //ヒントとあっている部分は両サイドにcrossを入れる関数
 // export function fillCrossBlockSide(solver:Solver) {
-//     console.group("fillCrossBlockSide")
+//     if(debug) console.group("fillCrossBlockSide")
 //     //row
-//     console.group("row")
+//     if(debug) console.group("row")
 //     for (let i = 0; i < solver.nonogram.boardInfo.height; i++) {
 //         const blocks:number[] = []
 //         let count = 0
@@ -107,9 +107,9 @@ export function checkLine(hint: number[], array: Cell[]){
 //             }
 //         })
 //     }
-//     console.groupEnd()
+//     if(debug) console.groupEnd()
 //     //col
-//     console.group("col")
+//     if(debug) console.group("col")
 //     for (let i = 0; i < solver.nonogram.boardInfo.width; i++) {
 //         const blocks:number[] = []
 //         let count = 0
@@ -130,56 +130,56 @@ export function checkLine(hint: number[], array: Cell[]){
 //             }
 //         })
 //     }
-//     console.groupEnd()
-//     console.groupEnd()
+//     if(debug) console.groupEnd()
+//     if(debug) console.groupEnd()
 // }
 
 //solve()で多用する繰り返しの共通する部分を関数化
 export function forUnsolvedRows(groupName: string = "", solver: Solver, callback: Function) {
-    console.groupCollapsed(groupName)
+    if(debug) console.groupCollapsed(groupName)
     for (let i = 0; i < solver.nonogram.boardInfo.height; i++) {
-        // console.groupCollapsed(i)
+        // if(debug) console.groupCollapsed(i)
         if (solver.solved.row[i]) {
             if(debug) console.log(i, "solved")
-            // console.groupEnd()
+            // if(debug) console.groupEnd()
             continue
         };
         if (!callback(i)) {
             if(debug) console.log(i, "not apply")
         }
-        // console.groupEnd()
+        // if(debug) console.groupEnd()
     }
-    console.groupCollapsed("solvedCheck")
+    if(debug) console.groupCollapsed("solvedCheck")
     solvedCheck(solver)
-    console.groupEnd()
-    console.groupEnd()
+    if(debug) console.groupEnd()
+    if(debug) console.groupEnd()
     // fillCrossBlockSide(solver)
 }
 
 export function forUnsolvedCols(groupName: string = "", solver: Solver, callback: Function) {
-    console.groupCollapsed(groupName)
+    if(debug) console.groupCollapsed(groupName)
     for (let i = 0; i < solver.nonogram.boardInfo.width; i++) {
-        // console.groupCollapsed(i)
+        // if(debug) console.groupCollapsed(i)
         if (solver.solved.col[i]) {
             if(debug) console.log(i, "solved")
-            // console.groupEnd()
+            // if(debug) console.groupEnd()
             continue
         };
         if (!callback(i)) {
             if(debug) console.log(i, "not apply")
         }
-        // console.groupEnd()
+        // if(debug) console.groupEnd()
     }
-    console.groupCollapsed("solvedCheck")
+    if(debug) console.groupCollapsed("solvedCheck")
     solvedCheck(solver)
-    console.groupEnd()
-    console.groupEnd()
+    if(debug) console.groupEnd()
+    if(debug) console.groupEnd()
     // fillCrossBlockSide(solver)
 }
 
 export function forUnsolvedLine(groupName: string = "", solver: Solver, callback: Function) {
-    console.groupCollapsed(groupName)
-    console.groupCollapsed("row")
+    if(debug) console.groupCollapsed(groupName)
+    if(debug) console.groupCollapsed("row")
     for (let i = 0; i < solver.nonogram.boardInfo.height; i++) {
         if (solver.solved.row[i]) {
             if(debug) console.log(i, "solved")
@@ -189,8 +189,8 @@ export function forUnsolvedLine(groupName: string = "", solver: Solver, callback
             if(debug) console.log(i, "not apply")
         }
     }
-    console.groupEnd()
-    console.groupCollapsed("col")
+    if(debug) console.groupEnd()
+    if(debug) console.groupCollapsed("col")
     for (let i = 0; i < solver.nonogram.boardInfo.width; i++) {
         if (solver.solved.col[i]) {
             if(debug) console.log(i, "solved")
@@ -200,9 +200,9 @@ export function forUnsolvedLine(groupName: string = "", solver: Solver, callback
             if(debug) console.log(i, "not apply")
         }
     }
-    console.groupEnd()
-    console.groupCollapsed("solvedCheck")
+    if(debug) console.groupEnd()
+    if(debug) console.groupCollapsed("solvedCheck")
     solvedCheck(solver)
-    console.groupEnd()
-    console.groupEnd()
+    if(debug) console.groupEnd()
+    if(debug) console.groupEnd()
 }
