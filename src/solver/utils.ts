@@ -185,7 +185,7 @@ export function forUnsolvedLine(groupName: string = "", solver: Solver, callback
             console.log(i, "solved")
             continue
         };
-        if (!callback("row","height",i)) {
+        if (!callback("row",i,"height")) {
             console.log(i, "not apply")
         }
     }
@@ -196,7 +196,7 @@ export function forUnsolvedLine(groupName: string = "", solver: Solver, callback
             console.log(i, "solved")
             continue
         };
-        if (!callback("col","width",i)) {
+        if (!callback("col",i,"width")) {
             console.log(i, "not apply")
         }
     }
