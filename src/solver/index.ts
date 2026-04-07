@@ -1,6 +1,6 @@
 //ノノグラムを解読するモジュール
 import type { Cell, Board, Nonogram, Position, BoardInfo, Solved, NewFill } from "../types";
-import { CellValues, isCell } from "../types";
+import { CellValues, debug, isCell } from "../types";
 import { apply0, applyAllFill, applyCenter, applyjust, applyBtween1, } from "./logics";
 import { forUnsolvedRows, solvedCheck } from "./utils";
 
@@ -16,9 +16,11 @@ export class Solver {
         this.solved = this.createFalseSolved()
         this.completed = false;
         this.changeLisner = []
-        console.log(this.board)
-        console.log(this.nonogram.hint.row)
-        console.log(this.nonogram.hint.col)
+        if(debug){
+            console.log(this.board)
+            console.log(this.nonogram.hint.row)
+            console.log(this.nonogram.hint.col)
+        }
     }
     //CellValues.Emptyで埋めたBoardを作る関数
     createEmptyBoard(boardInfo: BoardInfo) {
@@ -37,7 +39,7 @@ export class Solver {
     //1つのマスを埋める関数
     fill(postiion: Position, cell: Cell) {
         // await new Promise((resolve)=>setTimeout(resolve,3000))
-        console.log("fill", postiion, cell)
+        if(debug) console.log("fill", postiion, cell)
         // if (!(this.board[postiion.y][postiion.x] == cell)) {
         // }
         this.board[postiion.y][postiion.x] = cell;
@@ -78,7 +80,7 @@ export class Solver {
             // applyBothSide
         ]
         for (let i = 0; i < 2; i++) {
-            console.log("cysle", i + 1)
+            if(debug) console.log("cysle", i + 1)
             cycle.forEach((func) => func(this))
         }
         //ヒントが0ならその行列をCellValues.Crossで埋める

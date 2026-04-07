@@ -1,7 +1,7 @@
 //ノノグラムを表示するモジュール
 
 import type { Solver } from "../solver";
-import type { NewFill } from "../types";
+import { debug, type NewFill } from "../types";
 import { qsAll } from "../utiles";
 import { canvasFill, fillCanvasBorderLine, setCanvasSize } from "./canvasUtils";
 
@@ -20,7 +20,7 @@ export class Viewer {
             height:Math.floor(this.board.height / this.solver.nonogram.boardInfo.height),
             width:Math.floor(this.board.width / this.solver.nonogram.boardInfo.width)
         }
-        console.log(this.root)
+        if(debug) console.log(this.root)
         this.init()
         // this.output()
         this.solver.addChangeLisner(this.output.bind(this))

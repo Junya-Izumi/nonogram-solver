@@ -1,7 +1,7 @@
 //solver内の共通関数
 
 import type { Solver } from ".";
-import { CellValues, type Cell } from "../types";
+import { CellValues, debug, type Cell } from "../types";
 
 //列方向の1列を配列にして返す
 export function getColArray(solver: Solver, col: number): Cell[] {
@@ -73,7 +73,7 @@ export function checkLine(hint: number[], array: Cell[]){
             count = 0
         }
     }
-    console.log({ blocks: blocks, hint: hint })
+    if(debug) console.log({ blocks: blocks, hint: hint })
     if (count > 0) blocks.push(count);
     if (blocks.length !== hint.length) return false;
     for (let i = 0; i < hint.length; i++) {
@@ -140,12 +140,12 @@ export function forUnsolvedRows(groupName: string = "", solver: Solver, callback
     for (let i = 0; i < solver.nonogram.boardInfo.height; i++) {
         // console.groupCollapsed(i)
         if (solver.solved.row[i]) {
-            console.log(i, "solved")
+            if(debug) console.log(i, "solved")
             // console.groupEnd()
             continue
         };
         if (!callback(i)) {
-            console.log(i, "not apply")
+            if(debug) console.log(i, "not apply")
         }
         // console.groupEnd()
     }
@@ -161,12 +161,12 @@ export function forUnsolvedCols(groupName: string = "", solver: Solver, callback
     for (let i = 0; i < solver.nonogram.boardInfo.width; i++) {
         // console.groupCollapsed(i)
         if (solver.solved.col[i]) {
-            console.log(i, "solved")
+            if(debug) console.log(i, "solved")
             // console.groupEnd()
             continue
         };
         if (!callback(i)) {
-            console.log(i, "not apply")
+            if(debug) console.log(i, "not apply")
         }
         // console.groupEnd()
     }
@@ -182,22 +182,22 @@ export function forUnsolvedLine(groupName: string = "", solver: Solver, callback
     console.groupCollapsed("row")
     for (let i = 0; i < solver.nonogram.boardInfo.height; i++) {
         if (solver.solved.row[i]) {
-            console.log(i, "solved")
+            if(debug) console.log(i, "solved")
             continue
         };
         if (!callback("row","height",i)) {
-            console.log(i, "not apply")
+            if(debug) console.log(i, "not apply")
         }
     }
     console.groupEnd()
     console.groupCollapsed("col")
     for (let i = 0; i < solver.nonogram.boardInfo.width; i++) {
         if (solver.solved.col[i]) {
-            console.log(i, "solved")
+            if(debug) console.log(i, "solved")
             continue
         };
         if (!callback("col","width",i)) {
-            console.log(i, "not apply")
+            if(debug) console.log(i, "not apply")
         }
     }
     console.groupEnd()
