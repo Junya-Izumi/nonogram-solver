@@ -1,6 +1,6 @@
 //処理する関数の分割
 import type { Solver } from ".";
-import { type Cell, CellValues } from "../types";
+import { type Cell, CellValues , debug} from "../types";
 import { forUnsolvedRows, forUnsolvedCols, checkLine, getColArray, forUnsolvedLine } from "./utils";
 
 export function apply0(solver:Solver) {
@@ -36,7 +36,7 @@ export function applyBtween1(solver:Solver) {
                 lineArray.push(CellValues.Cross)
             })
             lineArray.pop()
-            console.log(lineArray)
+            if(debug) console.log(lineArray)
             solver.fillLine(direction, i, lineArray)
             solver.solved[direction][i] = true;
             return true
@@ -124,7 +124,7 @@ export function applyAllFill(solver:Solver) {
                 return cell
             }
         })
-        console.log(direction,i,[...existingLine],allFillLine,solver.nonogram.hint[direction][i])
+        if(debug) console.log(direction,i,[...existingLine],allFillLine,solver.nonogram.hint[direction][i])
         if (checkLine(solver.nonogram.hint[direction][i], allFillLine)) {
             solver.fillLine(direction,i, allFillLine)
             solver.solved[direction][i] = true

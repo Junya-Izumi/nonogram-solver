@@ -1,5 +1,7 @@
 //共通する型や関数を書く
 
+export const debug:boolean = import.meta.env.DEV
+
 //マスの情報
 //0 何も状態
 //1　×が打たれた状態
