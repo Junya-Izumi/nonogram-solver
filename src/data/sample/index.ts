@@ -1,6 +1,18 @@
 //サンプルデータ
 //sample data
 import type { Hint, Nonogram } from "../../types";
+
+const generateNonogramData = (hintData:Hint):Nonogram=>{
+    return {
+        hint:hintData,
+        boardInfo:{
+            width:hintData.col.length,
+            height:hintData.row.length
+        }
+    }
+}
+
+
  const sampleHint: Hint = {
     row: [
         [4],
@@ -19,13 +31,7 @@ import type { Hint, Nonogram } from "../../types";
         [0],
     ]
 }
-export const sampleData1: Nonogram = {
-    hint: sampleHint,
-    boardInfo: {
-        width: sampleHint.col.length,
-        height: sampleHint.row.length
-    }
-}
+export const sampleData1:Nonogram =  generateNonogramData(sampleHint)
 
 const sampleHint2: Hint = {
     row: [
@@ -43,13 +49,7 @@ const sampleHint2: Hint = {
         [3],
     ]
 }
-export const sampleData2: Nonogram = {
-    hint: sampleHint2,
-    boardInfo: {
-        width: sampleHint2.col.length,
-        height: sampleHint2.row.length
-    }
-}
+export const sampleData2:Nonogram =  generateNonogramData(sampleHint2)
 
 const sampleHint3: Hint = {
     row: [
@@ -67,10 +67,23 @@ const sampleHint3: Hint = {
         [3,1],
     ]
 }
-export const sampleData3: Nonogram = {
-    hint: sampleHint3,
-    boardInfo: {
-        width: sampleHint3.col.length,
-        height: sampleHint3.row.length
-    }
+export const sampleData3:Nonogram =  generateNonogramData(sampleHint3)
+
+const sampleHint4:Hint = {
+    row:[
+        [1,2],
+        [2,1],
+        [3],
+        [2,1],
+        [1,1]
+    ],
+    col:[
+        [2,2],
+        [1,1],
+        [1],
+        [1,1],
+        [5],
+    ]
 }
+
+export const sampleData4:Nonogram = generateNonogramData(sampleHint4)
