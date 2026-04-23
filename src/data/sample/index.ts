@@ -87,3 +87,22 @@ const sampleHint4:Hint = {
 }
 
 export const sampleData4:Nonogram = generateNonogramData(sampleHint4)
+
+const sampleHint5:Hint = {
+    row:[
+        [2,2],
+        [1,1],
+        [1],
+        [1,1],
+        [5],
+    ],
+    col:[
+        [1,2],
+        [2,1],
+        [3],
+        [2,1],
+        [1,1]
+    ]
+}
+
+export const sampleData5:Nonogram = generateNonogramData(sampleHint5)
