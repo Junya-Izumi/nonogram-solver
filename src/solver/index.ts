@@ -76,10 +76,10 @@ export class Solver {
             applyjust,
             applyBtween1,
             applyCenter,
-            applyAllFill,
             // applyBothSide
+            applyAllFill,
         ]
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 1; i++) {
             if(debug) console.log("cysle", i + 1)
             cycle.forEach((func) => func(this))
         }
@@ -103,6 +103,7 @@ export class Solver {
                     this.fill({ y: i, x: j }, CellValues.Filled)
                 }
                 this.fill({ y: i, x: this.nonogram.hint.row[i][0] }, CellValues.Cross)
+                return true
             }
         })
         forUnsolvedRows("both side row right", this, (i: number) => {
@@ -112,7 +113,7 @@ export class Solver {
             // console.log(this.board[i][length],this.board[i],this.board[i].length-1)
             if (this.board[i][boardLength - 1] == CellValues.Filled) {
                 for (let j = 0; j < this.nonogram.hint.row[i][hintLength - 1]; j++) {
-                    this.fill({ y: i, x: boardLength - j }, CellValues.Filled)
+                    this.fill({ y: i, x: boardLength - 1 - j }, CellValues.Filled)
                     // this.board[i][boardLength-j] = CellValues.Filled
                 }
                 this.fill({ y: i, x: boardLength - currentHint - 1 }, CellValues.Cross)
