@@ -2,7 +2,7 @@
 import type { Cell, Board, Nonogram, Position, BoardInfo, Solved, NewFill } from "../types";
 import { CellValues, debug, isCell } from "../types";
 import { apply0, applyAllFill, applyCenter, applyjust, applyBtween1, } from "./logics";
-import { forUnsolvedRows, solvedCheck } from "./utils";
+import { forUnsolvedCols, forUnsolvedRows, getColArray, solvedCheck } from "./utils";
 
 export class Solver {
     nonogram: Nonogram
@@ -76,10 +76,10 @@ export class Solver {
             applyjust,
             applyBtween1,
             applyCenter,
-            applyAllFill,
             // applyBothSide
+            applyAllFill,
         ]
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 1; i++) {
             if(debug) console.log("cysle", i + 1)
             cycle.forEach((func) => func(this))
         }
@@ -95,30 +95,6 @@ export class Solver {
         // applyAllFill(this)
 
         // 端が塗られているなら端から数えて塗る両端
-
-        forUnsolvedRows("both side row left", this, (i: number) => {
-            // console.log(i,this.board[i][0])
-            if (this.board[i][0] == CellValues.Filled) {
-                for (let j = 0; j < this.nonogram.hint.row[i][0]; j++) {
-                    this.fill({ y: i, x: j }, CellValues.Filled)
-                }
-                this.fill({ y: i, x: this.nonogram.hint.row[i][0] }, CellValues.Cross)
-            }
-        })
-        forUnsolvedRows("both side row right", this, (i: number) => {
-            const boardLength: number = this.nonogram.boardInfo.width
-            const hintLength: number = this.nonogram.hint.row[i].length
-            const currentHint: number = this.nonogram.hint.row[i][hintLength - 1]
-            // console.log(this.board[i][length],this.board[i],this.board[i].length-1)
-            if (this.board[i][boardLength - 1] == CellValues.Filled) {
-                for (let j = 0; j < this.nonogram.hint.row[i][hintLength - 1]; j++) {
-                    this.fill({ y: i, x: boardLength - j }, CellValues.Filled)
-                    // this.board[i][boardLength-j] = CellValues.Filled
-                }
-                this.fill({ y: i, x: boardLength - currentHint - 1 }, CellValues.Cross)
-            }
-        })
-        //col
 
         solvedCheck(this)
         this.onChange()
