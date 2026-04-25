@@ -2,7 +2,7 @@
 import type { Cell, Board, Nonogram, Position, BoardInfo, Solved, NewFill } from "../types";
 import { CellValues, debug, isCell } from "../types";
 import { apply0, applyAllFill, applyCenter, applyjust, applyBtween1, } from "./logics";
-import { forUnsolvedRows, solvedCheck } from "./utils";
+import { forUnsolvedCols, forUnsolvedRows, getColArray, solvedCheck } from "./utils";
 
 export class Solver {
     nonogram: Nonogram
@@ -120,6 +120,36 @@ export class Solver {
             }
         })
         //col
+        forUnsolvedCols("both side col top",this,(i: number)=>{
+            const colArray = getColArray(this,i)
+            if (colArray[0] == CellValues.Filled) {
+                // console.log("hint",this.nonogram.hint.col[i])
+                for (let j = 0; j < this.nonogram.hint.col[i][0]; j++) {
+                    colArray[j] = CellValues.Filled 
+                }
+                colArray[this.nonogram.hint.col[i][0]] = CellValues.Cross
+                this.fillLine("col",i,colArray)
+                return true
+            }
+        })
+
+        forUnsolvedCols("both side col buttom",this,(i: number)=>{
+            const boardLength: number = this.nonogram.boardInfo.height
+            const hintLength  = this.nonogram.hint.col[i].length
+            const currentHint  = this.nonogram.hint.col[i][hintLength - 1]
+            const colArray = getColArray(this,i)
+            // console.log("hint",this.nonogram.hint.col[i][hintLength -1])
+            // console.log("cell",colArray[boardLength - 1])
+            if (colArray[boardLength - 1] == CellValues.Filled) {
+                for (let j = 0; j < currentHint; j++) {
+                    colArray[boardLength - currentHint + j] = CellValues.Filled
+                }
+                colArray[boardLength - currentHint - 1] = CellValues.Cross
+                this.fillLine("col", i, colArray)
+                // console.log(colArray)
+                return true
+            }
+        })
 
         solvedCheck(this)
         this.onChange()
