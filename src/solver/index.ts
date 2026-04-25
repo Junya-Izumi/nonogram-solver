@@ -98,12 +98,13 @@ export class Solver {
 
         forUnsolvedRows("both side row left", this, (i: number) => {
             // console.log(i,this.board[i][0])
+            const currentHint = this.nonogram.hint.row[i][0]
             const rowArray = structuredClone(this.board[i])
             if (rowArray[0] == CellValues.Filled) {
-                for (let j = 0; j < this.nonogram.hint.row[i][0]; j++) {
+                for (let j = 0; j < currentHint; j++) {
                     rowArray[j] = CellValues.Filled
                 }
-                rowArray[this.nonogram.hint.row[i][0]] = CellValues.Cross
+                rowArray[currentHint] = CellValues.Cross
                 this.fillLine("row",i,rowArray)
                 return true
             }
@@ -126,13 +127,14 @@ export class Solver {
         })
         //col
         forUnsolvedCols("both side col top",this,(i: number)=>{
+            const currentHint = this.nonogram.hint.col[i][0]
             const colArray = getColArray(this,i)
             if (colArray[0] == CellValues.Filled) {
                 // console.log("hint",this.nonogram.hint.col[i])
-                for (let j = 0; j < this.nonogram.hint.col[i][0]; j++) {
+                for (let j = 0; j < currentHint; j++) {
                     colArray[j] = CellValues.Filled 
                 }
-                colArray[this.nonogram.hint.col[i][0]] = CellValues.Cross
+                colArray[currentHint] = CellValues.Cross
                 this.fillLine("col",i,colArray)
                 return true
             }
