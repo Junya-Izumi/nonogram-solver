@@ -98,11 +98,13 @@ export class Solver {
 
         forUnsolvedRows("both side row left", this, (i: number) => {
             // console.log(i,this.board[i][0])
-            if (this.board[i][0] == CellValues.Filled) {
+            const rowArray = structuredClone(this.board[i])
+            if (rowArray[0] == CellValues.Filled) {
                 for (let j = 0; j < this.nonogram.hint.row[i][0]; j++) {
-                    this.fill({ y: i, x: j }, CellValues.Filled)
+                    rowArray[j] = CellValues.Filled
                 }
-                this.fill({ y: i, x: this.nonogram.hint.row[i][0] }, CellValues.Cross)
+                rowArray[this.nonogram.hint.row[i][0]] = CellValues.Cross
+                this.fillLine("row",i,rowArray)
                 return true
             }
         })
@@ -110,13 +112,16 @@ export class Solver {
             const boardLength: number = this.nonogram.boardInfo.width
             const hintLength: number = this.nonogram.hint.row[i].length
             const currentHint: number = this.nonogram.hint.row[i][hintLength - 1]
+            const rowArray = structuredClone(this.board[i])
             // console.log(this.board[i][length],this.board[i],this.board[i].length-1)
             if (this.board[i][boardLength - 1] == CellValues.Filled) {
                 for (let j = 0; j < this.nonogram.hint.row[i][hintLength - 1]; j++) {
-                    this.fill({ y: i, x: boardLength - 1 - j }, CellValues.Filled)
+                    rowArray[boardLength - 1 - j] = CellValues.Filled
                     // this.board[i][boardLength-j] = CellValues.Filled
                 }
-                this.fill({ y: i, x: boardLength - currentHint - 1 }, CellValues.Cross)
+                rowArray[boardLength - currentHint - 1] = CellValues.Cross
+                this.fillLine("row",i,rowArray)
+                return true
             }
         })
         //col
