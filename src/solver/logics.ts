@@ -134,65 +134,101 @@ export function applyAllFill(solver:Solver) {
 }
 
 export function applyBothSide(solver:Solver) {
-    forUnsolvedRows("both side row left", solver, (i: number) => {
-        // console.log(i,solver.board[i][0])
-        const currentHint = solver.nonogram.hint.row[i][0]
-        const rowArray = structuredClone(solver.board[i])
-        if (rowArray[0] == CellValues.Filled) {
-            for (let j = 0; j < currentHint; j++) {
-                rowArray[j] = CellValues.Filled
+    forUnsolvedLine("both side",solver,(direction:"row"|"col",i:number,dimension:"width"|"height")=>{
+        const hintLength: number = solver.nonogram.hint[direction][i].length
+        const boardLength: number = solver.nonogram.boardInfo[dimension]
+        const currentLineHint = solver.nonogram.hint[direction][i]
+        const lineArray = (():Cell[]=>{
+            if (direction == "row") {
+                return solver.board[i]
+            }else{
+                return getColArray(solver,i)
             }
-            rowArray[currentHint] = CellValues.Cross
-            solver.fillLine("row",i,rowArray)
-            return true
+        })()
+        //left top
+        if (lineArray[0] == CellValues.Filled) {
+            for (let j = 0; j < currentLineHint[0]; j++) {
+                lineArray[j] = CellValues.Filled
+            }
+            lineArray[currentLineHint[0]] = CellValues.Cross
         }
-    })
-    forUnsolvedRows("both side row right", solver, (i: number) => {
-        const boardLength: number = solver.nonogram.boardInfo.width
-        const hintLength: number = solver.nonogram.hint.row[i].length
-        const currentHint: number = solver.nonogram.hint.row[i][hintLength - 1]
-        const rowArray = structuredClone(solver.board[i])
-        // console.log(solver.board[i][length],solver.board[i],solver.board[i].length-1)
-        if (solver.board[i][boardLength - 1] == CellValues.Filled) {
-            for (let j = 0; j < solver.nonogram.hint.row[i][hintLength - 1]; j++) {
-                rowArray[boardLength - 1 - j] = CellValues.Filled
-                // solver.board[i][boardLength-j] = CellValues.Filled
+        // solver.fillLine(direction,i,lineArray)
+
+        // right bottom
+        if (lineArray[boardLength - 1] == CellValues.Filled) {
+            for (let j = 0; j < currentLineHint[hintLength - 1]; j++) {
+                lineArray[boardLength - currentLineHint[hintLength - 1] + j ] = CellValues.Filled
             }
-            rowArray[boardLength - currentHint - 1] = CellValues.Cross
-            solver.fillLine("row",i,rowArray)
-            return true
+            lineArray[boardLength - currentLineHint[hintLength - 1 ] - 1] = CellValues.Cross
         }
-    })
-    //col
-    forUnsolvedCols("both side col top",solver,(i: number)=>{
-        const currentHint = solver.nonogram.hint.col[i][0]
-        const colArray = getColArray(solver,i)
-        if (colArray[0] == CellValues.Filled) {
-            // console.log("hint",solver.nonogram.hint.col[i])
-            for (let j = 0; j < currentHint; j++) {
-                colArray[j] = CellValues.Filled 
-            }
-            colArray[currentHint] = CellValues.Cross
-            solver.fillLine("col",i,colArray)
+
+        if(lineArray[0] == CellValues.Filled ||
+            lineArray[boardLength - 1] == CellValues.Filled
+        ){
+            solver.fillLine(direction,i,lineArray)
             return true
         }
     })
 
-    forUnsolvedCols("both side col buttom",solver,(i: number)=>{
-        const boardLength: number = solver.nonogram.boardInfo.height
-        const hintLength  = solver.nonogram.hint.col[i].length
-        const currentHint  = solver.nonogram.hint.col[i][hintLength - 1]
-        const colArray = getColArray(solver,i)
-        // console.log("hint",solver.nonogram.hint.col[i][hintLength -1])
-        // console.log("cell",colArray[boardLength - 1])
-        if (colArray[boardLength - 1] == CellValues.Filled) {
-            for (let j = 0; j < currentHint; j++) {
-                colArray[boardLength - currentHint + j] = CellValues.Filled
-            }
-            colArray[boardLength - currentHint - 1] = CellValues.Cross
-            solver.fillLine("col", i, colArray)
-            // console.log(colArray)
-            return true
-        }
-    })
+    // forUnsolvedRows("both side row left", solver, (i: number) => {
+    //     // console.log(i,solver.board[i][0])
+    //     const currentHint = solver.nonogram.hint.row[i][0]
+    //     const rowArray = structuredClone(solver.board[i])
+    //     if (rowArray[0] == CellValues.Filled) {
+    //         for (let j = 0; j < currentHint; j++) {
+    //             rowArray[j] = CellValues.Filled
+    //         }
+    //         rowArray[currentHint] = CellValues.Cross
+    //         solver.fillLine("row",i,rowArray)
+    //         return true
+    //     }
+    // })
+    // forUnsolvedRows("both side row right", solver, (i: number) => {
+    //     const boardLength: number = solver.nonogram.boardInfo.width
+    //     const hintLength: number = solver.nonogram.hint.row[i].length
+    //     const currentHint: number = solver.nonogram.hint.row[i][hintLength - 1]
+    //     const rowArray = structuredClone(solver.board[i])
+    //     // console.log(solver.board[i][length],solver.board[i],solver.board[i].length-1)
+    //     if (solver.board[i][boardLength - 1] == CellValues.Filled) {
+    //         for (let j = 0; j < solver.nonogram.hint.row[i][hintLength - 1]; j++) {
+    //             rowArray[boardLength - 1 - j] = CellValues.Filled
+    //             // solver.board[i][boardLength-j] = CellValues.Filled
+    //         }
+    //         rowArray[boardLength - currentHint - 1] = CellValues.Cross
+    //         solver.fillLine("row",i,rowArray)
+    //         return true
+    //     }
+    // })
+    // //col
+    // forUnsolvedCols("both side col top",solver,(i: number)=>{
+    //     const currentHint = solver.nonogram.hint.col[i][0]
+    //     const colArray = getColArray(solver,i)
+    //     if (colArray[0] == CellValues.Filled) {
+    //         // console.log("hint",solver.nonogram.hint.col[i])
+    //         for (let j = 0; j < currentHint; j++) {
+    //             colArray[j] = CellValues.Filled 
+    //         }
+    //         colArray[currentHint] = CellValues.Cross
+    //         solver.fillLine("col",i,colArray)
+    //         return true
+    //     }
+    // })
+
+    // forUnsolvedCols("both side col buttom",solver,(i: number)=>{
+    //     const boardLength: number = solver.nonogram.boardInfo.height
+    //     const hintLength  = solver.nonogram.hint.col[i].length
+    //     const currentHint  = solver.nonogram.hint.col[i][hintLength - 1]
+    //     const colArray = getColArray(solver,i)
+    //     // console.log("hint",solver.nonogram.hint.col[i][hintLength -1])
+    //     // console.log("cell",colArray[boardLength - 1])
+    //     if (colArray[boardLength - 1] == CellValues.Filled) {
+    //         for (let j = 0; j < currentHint; j++) {
+    //             colArray[boardLength - currentHint + j] = CellValues.Filled
+    //         }
+    //         colArray[boardLength - currentHint - 1] = CellValues.Cross
+    //         solver.fillLine("col", i, colArray)
+    //         // console.log(colArray)
+    //         return true
+    //     }
+    // })
 }
