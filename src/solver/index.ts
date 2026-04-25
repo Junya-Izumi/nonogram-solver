@@ -96,68 +96,6 @@ export class Solver {
 
         // 端が塗られているなら端から数えて塗る両端
 
-        forUnsolvedRows("both side row left", this, (i: number) => {
-            // console.log(i,this.board[i][0])
-            const currentHint = this.nonogram.hint.row[i][0]
-            const rowArray = structuredClone(this.board[i])
-            if (rowArray[0] == CellValues.Filled) {
-                for (let j = 0; j < currentHint; j++) {
-                    rowArray[j] = CellValues.Filled
-                }
-                rowArray[currentHint] = CellValues.Cross
-                this.fillLine("row",i,rowArray)
-                return true
-            }
-        })
-        forUnsolvedRows("both side row right", this, (i: number) => {
-            const boardLength: number = this.nonogram.boardInfo.width
-            const hintLength: number = this.nonogram.hint.row[i].length
-            const currentHint: number = this.nonogram.hint.row[i][hintLength - 1]
-            const rowArray = structuredClone(this.board[i])
-            // console.log(this.board[i][length],this.board[i],this.board[i].length-1)
-            if (this.board[i][boardLength - 1] == CellValues.Filled) {
-                for (let j = 0; j < this.nonogram.hint.row[i][hintLength - 1]; j++) {
-                    rowArray[boardLength - 1 - j] = CellValues.Filled
-                    // this.board[i][boardLength-j] = CellValues.Filled
-                }
-                rowArray[boardLength - currentHint - 1] = CellValues.Cross
-                this.fillLine("row",i,rowArray)
-                return true
-            }
-        })
-        //col
-        forUnsolvedCols("both side col top",this,(i: number)=>{
-            const currentHint = this.nonogram.hint.col[i][0]
-            const colArray = getColArray(this,i)
-            if (colArray[0] == CellValues.Filled) {
-                // console.log("hint",this.nonogram.hint.col[i])
-                for (let j = 0; j < currentHint; j++) {
-                    colArray[j] = CellValues.Filled 
-                }
-                colArray[currentHint] = CellValues.Cross
-                this.fillLine("col",i,colArray)
-                return true
-            }
-        })
-
-        forUnsolvedCols("both side col buttom",this,(i: number)=>{
-            const boardLength: number = this.nonogram.boardInfo.height
-            const hintLength  = this.nonogram.hint.col[i].length
-            const currentHint  = this.nonogram.hint.col[i][hintLength - 1]
-            const colArray = getColArray(this,i)
-            // console.log("hint",this.nonogram.hint.col[i][hintLength -1])
-            // console.log("cell",colArray[boardLength - 1])
-            if (colArray[boardLength - 1] == CellValues.Filled) {
-                for (let j = 0; j < currentHint; j++) {
-                    colArray[boardLength - currentHint + j] = CellValues.Filled
-                }
-                colArray[boardLength - currentHint - 1] = CellValues.Cross
-                this.fillLine("col", i, colArray)
-                // console.log(colArray)
-                return true
-            }
-        })
-
         solvedCheck(this)
         this.onChange()
     }
