@@ -1,4 +1,4 @@
-*{
+.viewer * {
     margin: 0;
     padding: 0;
 }
@@ -6,11 +6,8 @@
     --viewer-height:5;
     --viewer-width:5;
 }
-#id,body{
-    height: 100%;
-    width: 100%;
-}
-#viewer{
+
+.viewer{
     background-color: #be9595;
     width: calc(20px * var(--viewer-width) *2);
     height: calc(20px * var(--viewer-width) *2);
@@ -21,7 +18,7 @@
 }
 
 /* boardの表示 */
-#viewer .board{
+.viewer .board{
     display: grid;
     height: 100%;
     width: 100%;
