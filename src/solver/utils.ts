@@ -181,7 +181,7 @@ export function forUnsolvedLine(groupName: string = "", solver: Solver, callback
     if(debug) console.groupCollapsed(groupName)
     if(debug) console.groupCollapsed("row")
     for (let i = 0; i < solver.nonogram.boardInfo.height; i++) {
-        if (solver.solved.row[i]) {
+        if (solver.solved.row[i] || solver.completed) {
             if(debug) console.log(i, "solved")
             continue
         };
@@ -192,7 +192,7 @@ export function forUnsolvedLine(groupName: string = "", solver: Solver, callback
     if(debug) console.groupEnd()
     if(debug) console.groupCollapsed("col")
     for (let i = 0; i < solver.nonogram.boardInfo.width; i++) {
-        if (solver.solved.col[i]) {
+        if (solver.solved.col[i] || solver.completed) {
             if(debug) console.log(i, "solved")
             continue
         };
