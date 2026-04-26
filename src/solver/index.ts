@@ -1,7 +1,7 @@
 //ノノグラムを解読するモジュール
 import type { Cell, Board, Nonogram, Position, BoardInfo, Solved, NewFill } from "../types";
 import { CellValues, debug, isCell } from "../types";
-import { apply0, applyAllFill, applyCenter, applyjust, applyBtween1, } from "./logics";
+import { apply0, applyAllFill, applyCenter, applyjust, applyBtween1, applyBothSide} from "./logics";
 import { forUnsolvedCols, forUnsolvedRows, getColArray, solvedCheck } from "./utils";
 
 export class Solver {
@@ -76,11 +76,12 @@ export class Solver {
             applyjust,
             applyBtween1,
             applyCenter,
-            // applyBothSide
+            applyBothSide,
             applyAllFill,
         ]
         for (let i = 0; i < 1; i++) {
             if(debug) console.log("cysle", i + 1)
+            if(this.completed) continue
             cycle.forEach((func) => func(this))
         }
         //ヒントが0ならその行列をCellValues.Crossで埋める
@@ -101,13 +102,7 @@ export class Solver {
     }
     //問題が解けたかチェック
     completeCheck() {
-        if (!this.solved.col.includes(false) &&
-            !this.solved.row.includes(false)
-        ) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.completed = (!this.solved.row.includes(false) && !this.solved.col.includes(false))
     }
     addChangeLisner(func: Function) {
         this.changeLisner.push(func)
