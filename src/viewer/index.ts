@@ -14,6 +14,7 @@ export class Viewer {
     constructor(solver:Solver,outputElement:HTMLElement) {
         this.solver = solver
         this.root = outputElement
+        this.root.classList.add("viewer")
         this.board = document.createElement("canvas")
         this.boardCtx = this.board.getContext("2d")!
         this.cellSize = {
